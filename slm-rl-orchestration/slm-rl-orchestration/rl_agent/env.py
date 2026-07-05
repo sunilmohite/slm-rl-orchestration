@@ -24,6 +24,9 @@ from kubernetes import client, config
 import numpy as np
 import gymnasium as gym
 from gymnasium import spaces
+import urllib3
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 NAMESPACE = "slm-rl-demo"
 DEPLOYMENT = "slm-inference"
@@ -49,8 +52,14 @@ class SLMScalingEnv(gym.Env):
         self.action_space = spaces.Discrete(3)  # down / no-op / up
 
         config.load_kube_config()
+
+        configuration = client.Configuration.get_default_copy()
+        configuration.verify_ssl = False
+        client.Configuration.set_default(configuration)
         self.apps_api = client.AppsV1Api()
         self._last_obs = None
+
+        
 
     # ---------------- Prometheus helpers ----------------
     def _query_prom(self, promql):

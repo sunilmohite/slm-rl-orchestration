@@ -10,7 +10,7 @@ echo ">>> Creating namespace"
 oc new-project ${NAMESPACE} 2>/dev/null || oc project ${NAMESPACE}
 
 echo ">>> Building + deploying inference service directly from your GitHub repo via S2I"
-oc new-app python:3.11~${REPO_URL} \
+oc new-app registry.access.redhat.com/ubi8/python-311~${REPO_URL} \
   --context-dir=workload \
   --name=slm-inference \
   -n ${NAMESPACE}
