@@ -1,0 +1,13 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: slm-inference-monitor
+  namespace: slm-rl-demo
+spec:
+  selector:
+    matchLabels:
+      app: slm-inference
+  podMetricsEndpoints:
+    - port: 8080-tcp
+      path: /metrics
+      interval: 10s
