@@ -13,6 +13,6 @@ git add -A
 git commit -m "session checkpoint $(date -u +%Y-%m-%dT%H:%M:%SZ)" || echo "nothing new to commit"
 
 echo ">>> Pushing to GitHub"
-git push
+git push https://sunilmohite205@gmail.com
 
 echo "Done. Safe to let the lab session end/expire now."
