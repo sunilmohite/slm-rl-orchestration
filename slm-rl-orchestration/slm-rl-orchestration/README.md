@@ -4,6 +4,19 @@ Everything here runs **inside your DO280 lab workstation** (not the BITS Kubeflo
 notebook). The lab gives you a terminal, internet access, and cluster-admin — that's
 all you need. GitHub is where your work survives between ephemeral sessions.
 
+## Technology stack (matches the viva/dissertation slides)
+| Layer | Tool |
+|---|---|
+| Cluster | Red Hat OpenShift (DO280 lab environment) |
+| Orchestration API | Kubernetes Python Client |
+| Model serving | KServe if the operator catalog allows it, else an equivalent Deployment/Service |
+| Inference server | Python, Flask, HuggingFace Transformers (PyTorch backend) |
+| Scaling agent | Reinforcement Learning — PPO via Stable-Baselines3 + Gymnasium |
+| Metrics | Prometheus, queried through Thanos Querier |
+| Dashboards | Grafana (optional, cosmetic only — see below) |
+| Build | OpenShift S2I (no local Docker needed) |
+| Persistence | Git & GitHub |
+
 ## ONE-TIME setup (do this once, from your laptop, before your next lab session)
 
 1. Create a private GitHub repo called `slm-rl-orchestration` (via github.com or `gh repo create`).
@@ -94,7 +107,28 @@ python evaluate.py --mode rl --model checkpoints/ppo_scaler.zip --steps 40 --out
 ### Step 9 — Compare
 Open `results/hpa_run1.csv` and `results/rl_run1.csv` in a notebook or spreadsheet
 and plot `p95_latency` and `replicas` over time for each — this is your core
-dissertation results chapter.
+dissertation results chapter. Or just run:
+```bash
+cd results
+pip install --user -r requirements.txt
+python plot_comparison.py --rl rl_run1.csv --hpa hpa_run1.csv --out comparison.png
+```
+
+## Do you need Prometheus + Grafana GUI?
+
+**Prometheus (via Thanos Querier) — required.** The RL agent (`rl_agent/env.py`)
+queries Thanos Querier's HTTP API directly for `request_rate`, `p95_latency`,
+and `cpu` — this is how it "sees" the workload. Without it, the agent has no
+state to act on.
+
+**Grafana — optional, purely cosmetic.** Nothing in the pipeline reads from
+Grafana. It only matters if you want a visual dashboard to screenshot for your
+dissertation or viva demo. If you want that, run:
+```bash
+bash scripts/16_setup_grafana_optional.sh
+```
+If you don't need dashboard screenshots, skip it entirely — everything else
+works without it.
 
 ### Step 10 — ALWAYS run before your session ends
 ```bash
@@ -109,8 +143,8 @@ If your lab expires mid-experiment, you lose nothing except needing to re-run
 manifests/        # k8s/OpenShift YAML (HPA, PodMonitor, monitoring config)
 workload/         # the SLM inference server + load generator
 rl_agent/         # Gym env, PPO training, evaluation
-scripts/          # numbered — run in order each session
-results/          # CSV outputs from evaluate.py, committed to git
+scripts/          # numbered — run in order each session; 16 is optional (Grafana)
+results/          # CSV outputs from evaluate.py + plot_comparison.py, committed to git
 ```
 
 ## If Step 3's S2I build fails
