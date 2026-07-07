@@ -55,7 +55,7 @@ Deployment/Service, and still gives you the same RL-vs-autoscaling research ques
 
 ### Step 3 — Deploy the inference workload
 ```bash
-bash scripts/10_bootstrap_plain.sh https://github.com/<you>/slm-rl-orchestration.git
+bash scripts/10_bootstrap_plain.sh https://github.com/sunilmohite/slm-rl-orchestration.git
 ```
 This builds the SLM inference server (from `workload/`) directly from your GitHub
 repo using OpenShift's S2I build (no local Docker needed), deploys it, exposes a
