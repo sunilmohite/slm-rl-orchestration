@@ -38,7 +38,7 @@ all you need. GitHub is where your work survives between ephemeral sessions.
 
 ### Step 1 — Log into the lab and clone your repo
 ```bash
-oc login https://api.<lab-domain>:6443 -u kubeadmin -p <password> --insecure-skip-tls-verify
+oc login -u admin -p redhatocp  https://api.ocp4.example.com:6443 --insecure-skip-tls-verify
 git clone https://github.com/<you>/slm-rl-orchestration.git
 cd slm-rl-orchestration
 ```
