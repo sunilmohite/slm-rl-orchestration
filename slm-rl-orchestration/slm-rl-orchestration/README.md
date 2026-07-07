@@ -90,6 +90,12 @@ Leave this running in the background (`&` or a second terminal) while you train/
 ```bash
 oc apply -f manifests/hpa-baseline.yaml   # if not already applied by step 3
 cd rl_agent
+
+export PROMETHEUS_URL="http://localhost:9090"
+export PROMETHEUS_TOKEN="dummy_token_123"
+
+oc port-forward svc/prometheus 9090:9090 -n slm-rl-demo #Run this in new terminal
+
 python evaluate.py --mode hpa --steps 40 --out ../results/hpa_run1.csv
 ```
 
