@@ -40,8 +40,15 @@ class SLMScalingEnv(gym.Env):
 
     def __init__(self, prometheus_url=None, prometheus_token=None, step_seconds=15):
         super().__init__()
-        self.prom_url = prometheus_url or os.environ["PROMETHEUS_URL"]
-        self.prom_token = prometheus_token or os.environ["PROMETHEUS_TOKEN"]
+        self.prom_url = prometheus_url or os.getenv(
+            "PROMETHEUS_URL",
+            "https://localhost:9090"
+            )
+
+        self.prom_token = prometheus_token or os.getenv(
+            "PROMETHEUS_TOKEN",
+            "dummy_token_123"
+            )
         self.step_seconds = step_seconds
 
         # observation: [request_rate, p95_latency, avg_cpu, replicas] all float32
