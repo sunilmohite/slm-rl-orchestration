@@ -94,7 +94,7 @@ cd rl_agent
 export PROMETHEUS_URL="http://localhost:9090"
 export PROMETHEUS_TOKEN="dummy_token_123"
 
-oc port-forward svc/prometheus 9090:9090 -n slm-rl-demo #Run this in new terminal
+oc port-forward svc/prometheus-user-workload 9090:9091 -n openshift-user-workload-monitoring#Run this in new terminal
 
 python evaluate.py --mode hpa --steps 40 --out ../results/hpa_run1.csv
 ```
