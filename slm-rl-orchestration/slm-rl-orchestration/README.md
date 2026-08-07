@@ -30,7 +30,7 @@ all you need. GitHub is where your work survives between ephemeral sessions.
    git add -A
    git commit -m "initial project skeleton"
    git branch -M main
-   git remote add origin https://github.com/<you>/slm-rl-orchestration.git
+   git remote add origin https://github.com/sunilmohite/slm-rl-orchestration.git
    git push -u origin main
    ```
 
