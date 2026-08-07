@@ -39,7 +39,7 @@ all you need. GitHub is where your work survives between ephemeral sessions.
 ### Step 1 — Log into the lab and clone your repo
 ```bash
 oc login -u admin -p redhatocp  https://api.ocp4.example.com:6443 --insecure-skip-tls-verify
-git clone https://github.com/<you>/slm-rl-orchestration.git
+git clone https://github.com/sunilmohite/slm-rl-orchestration.git
 cd slm-rl-orchestration
 ```
 (If you already cloned it in an earlier session and the workstation persisted, just `git pull` instead.)
